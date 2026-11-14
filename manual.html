@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShellCat user manual</title>
+<meta name="description" content="How to use ShellCat: connections, terminal, files, monitor, auto diagnosis, scripts, Teleport, tunnels and settings.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/logo.png" alt="">ShellCat</a>
+  <nav>
+    <a href="index.html#features">Features</a>
+    <a href="index.html#download">Download</a>
+    <a href="index.html#install">Install</a>
+    <a href="manual.html">User manual</a>
+  </nav>
+</div></header>
+
+<div class="wrap doc">
+<aside class="toc">
+  <a href="#start">1. Getting started</a>
+  <a href="#connections">2. Connections</a>
+  <a class="lvl2" href="#auth">Authentication types</a>
+  <a class="lvl2" href="#hostkeys">Host keys</a>
+  <a href="#terminal">3. Terminal and tabs</a>
+  <a href="#commands">4. Command palette</a>
+  <a href="#scripts">5. Script palette</a>
+  <a href="#files">6. Files (SFTP)</a>
+  <a href="#monitor">7. Monitor</a>
+  <a href="#diagnosis">8. Auto diagnosis</a>
+  <a href="#tunnels">9. Tunnels</a>
+  <a href="#teleport">10. Teleport</a>
+  <a href="#local">11. Local terminal</a>
+  <a href="#settings">12. Settings and appearance</a>
+  <a href="#data">13. Data, backup and security</a>
+  <a href="#shortcuts">14. Keyboard shortcuts</a>
+  <a href="#troubleshooting">15. Troubleshooting</a>
+</aside>
+
+<article>
+<h1>User manual</h1>
+<p>This guide covers everything you need to work with ShellCat day to day. New users can read sections 1–3 and then jump to the features they need.</p>
+
+<h2 id="start">1. Getting started</h2>
+<p>After installing (see the <a href="index.html#install">installation guide</a>), start ShellCat. The window has three areas:</p>
+<ul>
+  <li><b>Sidebar</b> (left) — your groups and saved connections, a search box, and the settings gear at the bottom.</li>
+  <li><b>Header and tab bar</b> — buttons for Teleport, Local terminal, Scripts and the Command palette, plus one tab per open session.</li>
+  <li><b>Workspace</b> — the selected tab, with the <b>Terminal / Files / Monitor / Tunnels</b> switcher above it.</li>
+</ul>
+<figure><img src="screenshots/hero.png" alt="The ShellCat window"></figure>
+<p>Your first steps:</p>
+<ol>
+  <li>Click <b>New connection</b> (or <b>+</b> in the tab bar).</li>
+  <li>Fill in the server details and save.</li>
+  <li>Click the server in the sidebar to connect.</li>
+</ol>
+
+<h2 id="connections">2. Connections</h2>
+<p>Use <b>+</b> next to the sidebar title to add a connection or a group. Hover over an item and click <b>•••</b> for more actions: connect, browse files, monitor &amp; diagnose, open with tsh ssh (Teleport servers), edit, duplicate and delete.</p>
+<table>
+  <tr><th>Field</th><th>Description</th></tr>
+  <tr><td>Name</td><td>How the server appears in the sidebar and tabs.</td></tr>
+  <tr><td>Host / Port</td><td>Hostname or IP address and SSH port (default 22). For Teleport servers the host is the node name.</td></tr>
+  <tr><td>Username</td><td>The Unix account to log in as (your <em>login</em> for Teleport).</td></tr>
+  <tr><td>Group, colour, tags</td><td>Organise servers. Tags are searchable from the sidebar.</td></tr>
+</table>
+<figure><img src="screenshots/connections.png" alt="Connection editor"></figure>
+
+<h3 id="auth">Authentication types</h3>
+<ul>
+  <li><b>Password</b> — stored encrypted. When editing, leave the field empty to keep the saved password or type a new one to replace it. Switching to another authentication type removes the saved password.</li>
+  <li><b>Private key</b> — path to your key file (OpenSSH format, e.g. <code>~/.ssh/id_ed25519</code>) and an optional passphrase. Leave the passphrase empty to keep the saved one, or tick <em>Remove saved passphrase</em>.</li>
+  <li><b>SSH agent</b> — uses keys loaded into your agent. On Windows enable the <em>OpenSSH Authentication Agent</em> service and run <code>ssh-add</code>; on Linux ShellCat uses <code>SSH_AUTH_SOCK</code>. Nothing secret is stored.</li>
+  <li><b>Teleport</b> — uses the certificate from <code>tsh login</code>. Enter the proxy address (and optionally the cluster). The easiest way to add these is from the Teleport panel (<a href="#teleport">section 10</a>).</li>
+</ul>
+
+<h3 id="hostkeys">Host keys</h3>
+<p>The first time you connect to a server, ShellCat shows its fingerprint. Compare it with a trusted source and click <b>Trust host &amp; connect</b>. If a known server's key changes later, ShellCat refuses to connect and warns you — this can indicate a man-in-the-middle attack or a reinstalled server. Teleport servers are verified automatically against your cluster's host certificate authority.</p>
+
+<h2 id="terminal">3. Terminal and tabs</h2>
+<ul>
+  <li>Each connection opens in its own tab. Open the same server twice for two independent shells.</li>
+  <li><b>Split</b> the workspace side by side or top and bottom with the split buttons on the right of the tool bar.</li>
+  <li>The terminal tool bar offers <b>find</b>, font size, <b>clear</b>, the command palette and <b>reconnect</b>.</li>
+  <li>Select text to copy it; right-click for <b>Copy</b> and <b>Paste</b>. Links can be opened after a confirmation.</li>
+  <li>If the network drops, ShellCat detects it within about a minute and shows <b>Reconnect</b>.</li>
+</ul>
+
+<h2 id="commands">4. Command palette</h2>
+<p>Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>. Type a few words describing what you want (for example <em>docker logs</em> or <em>disk usage</em>) and pick a command with the arrow keys and <kbd>Enter</kbd>.</p>
+<ul>
+  <li>Commands with placeholders such as <code>&lt;container&gt;</code> ask you to fill them in; values are quoted safely.</li>
+  <li>Commands are <b>pasted for review</b> into the active terminal — they only run when you press <kbd>Enter</kbd> there.</li>
+  <li>Colour dots show the safety label: read-only, caution or danger.</li>
+  <li><b>New command</b> saves your own commands; <b>Browse all</b> lists the full catalogue; tick commands and <b>Export</b> to share a pack, or <b>Import pack</b> to load one.</li>
+</ul>
+<figure><img src="screenshots/command-palette.png" alt="Command palette"></figure>
+
+<h2 id="scripts">5. Script palette</h2>
+<p>Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> or click <b>Scripts</b>. Scripts are complete, multi-line programs you can run again and again — for example flushing firewall rules or restarting a group of workers.</p>
+<figure><img src="screenshots/script-palette.png" alt="Script palette"></figure>
+<h3>Creating a script</h3>
+<ol>
+  <li>Click <b>New script</b>, or select a template and click <b>Duplicate</b>.</li>
+  <li>Give it a name and category, choose the interpreter (<code>bash</code>, <code>sh</code>, <code>python3</code>, <code>perl</code>, <code>node</code>, or <em>auto</em> to use the script's <code>#!</code> line).</li>
+  <li>Optionally set default arguments (available as <code>$1</code>, <code>$2</code>…), <b>Run with sudo</b>, and <b>Ask for confirmation</b> for risky scripts.</li>
+  <li>Write the script in the editor (<kbd>Tab</kbd> indents, <kbd>Ctrl</kbd>+<kbd>S</kbd> saves) and click <b>Save script</b>.</li>
+</ol>
+<h3>Running a script</h3>
+<ol>
+  <li>Connect to one or more servers first.</li>
+  <li>Select the script and click <b>Run…</b> (or double-click it).</li>
+  <li>Tick the target servers, adjust the arguments and choose a mode:
+    <ul>
+      <li><b>New terminal tab</b> (recommended) — a dedicated interactive session per server. Password prompts, <code>read</code> questions and <kbd>Ctrl</kbd>+<kbd>C</kbd> work, and the tab shows the exit status when the script finishes.</li>
+      <li><b>Current terminal</b> — types the run command into the server's open shell, so the script shares its working directory and environment.</li>
+    </ul></li>
+</ol>
+<figure><img src="screenshots/script-run.png" alt="Run dialog"></figure>
+<p>Behind the scenes ShellCat streams the script into a private temporary file on the server (readable only by you), runs it, and deletes it when it ends. Windows line endings are converted automatically. Use <b>Run without saving</b> in the editor to test changes.</p>
+<p><b>Sharing:</b> tick scripts and click <b>Export</b> to create a pack file; teammates use <b>Import pack</b>, review every script, and confirm. Importing never runs anything.</p>
+
+<h2 id="files">6. Files (SFTP)</h2>
+<p>Switch a connected tab to <b>Files</b>.</p>
+<ul>
+  <li>Type a path in the path bar; <kbd>Tab</kbd> completes directory names, <kbd>Enter</kbd> opens the folder.</li>
+  <li>Upload and download with the tool bar buttons; progress and speed appear in the transfer queue, and transfers can be cancelled.</li>
+  <li>Create files and folders, rename, change permissions and delete.</li>
+  <li>Open a small text file to edit it: <kbd>Ctrl</kbd>+<kbd>F</kbd> find, <kbd>Ctrl</kbd>+<kbd>H</kbd> replace, <kbd>Ctrl</kbd>+<kbd>S</kbd> save. Saving writes to a temporary file first and then replaces the original.</li>
+</ul>
+<figure><img src="screenshots/files.png" alt="File browser"></figure>
+<p>If a server refuses SFTP, ShellCat explains why and offers <b>Use sftp-server for this session</b>, which starts the server's own <code>sftp-server</code> program over SSH. Only use it where your organisation allows file transfer.</p>
+
+<h2 id="monitor">7. Monitor</h2>
+<p>Switch to <b>Monitor → Live telemetry</b> to see CPU, memory, uptime and load averages, the top 20 processes by CPU, and listening ports. The view refreshes every four seconds while it is visible. Click ■ next to a process to send it <code>SIGTERM</code> (after confirmation).</p>
+<figure><img src="screenshots/monitor.png" alt="Live monitor"></figure>
+
+<h2 id="diagnosis">8. Auto diagnosis</h2>
+<p>Open <b>Monitor → Auto diagnosis</b> and click <b>Run diagnosis</b>. ShellCat runs a fixed set of 67 <b>read-only</b> probes and builds a report. A run usually takes 10–60 seconds; you can switch tabs while it runs or cancel it.</p>
+<h3>What is collected</h3>
+<table>
+  <tr><th>Area</th><th>Examples</th></tr>
+  <tr><td>System</td><td>OS, kernel, uptime and load, clock sync, CPU, memory and swap, pressure stalls, kernel limits</td></tr>
+  <tr><td>Storage</td><td>Disk and inode usage, block devices, mounts, I/O, large logs, deleted-but-open files</td></tr>
+  <tr><td>Network</td><td>Addresses, routes, DNS, listening ports, connection states, firewall rules</td></tr>
+  <tr><td>Processes &amp; services</td><td>Top processes, zombies, failed and restarting systemd units, timers, cron, journal and kernel errors, OOM kills</td></tr>
+  <tr><td>Web</td><td>Nginx, Apache and HAProxy status, configuration and config tests, error logs, TLS certificate expiry</td></tr>
+  <tr><td>Containers</td><td>Docker engine, containers, restart counts, health, resource use, logs of failing containers, Podman, Kubernetes</td></tr>
+  <tr><td>Workers</td><td>Supervisor programs and config, queue/worker processes, PM2</td></tr>
+  <tr><td>Environment &amp; security</td><td>Environment variables (redacted), <code>.env</code> keys (values omitted), runtimes, databases, sshd settings, fail2ban, pending updates</td></tr>
+</table>
+<h3>Safety and privacy</h3>
+<ul>
+  <li>Nothing is changed on the server. Commands that need root use <code>sudo -n</code> only if passwordless sudo is configured — ShellCat never prompts for a password here.</li>
+  <li>Each probe has a time limit, so a hung command cannot block the run.</li>
+  <li>With <b>Redact secrets</b> enabled (default), passwords, tokens, API keys, connection strings, private keys and similar values are replaced with <code>&lt;redacted&gt;</code>. Always review a report before sharing it.</li>
+</ul>
+<h3>Reading and sharing the report</h3>
+<ul>
+  <li><b>Findings</b> lists problems detected automatically (for example a full disk, a failing Nginx config test or a restart-looping container), most severe first. Click a finding to jump to its evidence.</li>
+  <li><b>Raw data</b> shows each probe's command, exit status and output, with a filter.</li>
+  <li><b>Edit JSON</b> / <b>Edit Markdown</b> let you add notes or remove sections before sharing.</li>
+  <li><b>Copy for AI</b> copies the Markdown version, which starts with instructions for an AI assistant; paste it into your AI tool of choice. <b>Save JSON</b> and <b>Save Markdown</b> write files.</li>
+</ul>
+<figure><img src="screenshots/diagnosis-findings.png" alt="Diagnosis findings"></figure>
+<figure><img src="screenshots/diagnosis-report.png" alt="Diagnosis report"></figure>
+
+<h2 id="tunnels">9. Tunnels</h2>
+<p>Switch to <b>Tunnels</b> and click <b>Add tunnel</b>.</p>
+<ul>
+  <li><b>Local → remote</b>: listens on your computer (127.0.0.1) and forwards to a host and port reachable from the server — for example a database on the server's private network.</li>
+  <li><b>Remote → local</b>: listens on the server's loopback and forwards back to a host and port reachable from your computer.</li>
+</ul>
+<p>Click <b>Start</b> to activate a tunnel and <b>Active</b> to stop it. Tunnels close when their connection closes.</p>
+<figure><img src="screenshots/tunnels.png" alt="Tunnels"></figure>
+
+<h2 id="teleport">10. Teleport</h2>
+<p>ShellCat works with your installed Teleport <code>tsh</code> client. Open the panel with <b>Teleport</b> in the header or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>.</p>
+<h3>Logging in</h3>
+<ol>
+  <li>On the <b>Account</b> tab, enter your proxy address (e.g. <code>teleport.example.com:443</code>) and optionally your user name, auth connector and cluster.</li>
+  <li>Click <b>Log in with tsh</b>. A terminal tab opens running <code>tsh login</code>: complete SSO in your browser or answer the password, OTP or security-key prompts there.</li>
+  <li>Return to the Teleport panel and press refresh. Your profile shows its roles, allowed logins and expiry.</li>
+</ol>
+<figure><img src="screenshots/teleport-login.png" alt="Teleport login"></figure>
+<p>If ShellCat cannot find <code>tsh</code>, set its location under <b>tsh location</b> on the Account tab.</p>
+<h3>Finding and opening servers</h3>
+<ul>
+  <li>On <b>Servers</b>, choose the cluster and the login (Unix user) to use. Search by name or address, or filter by label with <code>key=value</code> (click a label chip to add it).</li>
+  <li><b>Connect</b> opens the server with all ShellCat features (Files, Monitor, Diagnosis, Tunnels, Scripts).</li>
+  <li>The terminal icon opens it with <code>tsh ssh</code> in an embedded terminal.</li>
+  <li>The bookmark icon saves it to the sidebar in a group named <em>Teleport · &lt;cluster&gt;</em>.</li>
+  <li>Tick several servers to <b>Connect selected</b> or <b>Save selected</b> in one go (up to 20 at once).</li>
+</ul>
+<figure><img src="screenshots/teleport-servers.png" alt="Teleport servers"></figure>
+<h3>Automatic fallbacks</h3>
+<ul>
+  <li>If the chosen login is not allowed on a server, ShellCat tries your other allowed logins, connects with the first that works, tells you, and updates the saved server.</li>
+  <li>If ShellCat's own connection is refused entirely (typically because the server requires <b>per-session MFA</b>), the tab is reopened with <code>tsh ssh</code> automatically and a banner explains why. Files, Monitor and Scripts are not available in such tabs; <b>Retry ShellCat connection</b> tries again.</li>
+</ul>
+<h3>Access requests</h3>
+<p>On <b>Access requests</b>, enter roles and/or resource IDs and a reason, then <b>Submit request</b>; a terminal shows the request while it waits for approval. Approved requests have an <b>Assume</b> button that logs you in with the elevated access.</p>
+<h3>tsh console</h3>
+<p>Run any other tsh command — <code>db ls</code>, <code>kube ls</code>, <code>apps ls</code>, <code>recordings ls</code> and so on — in an embedded terminal. The current proxy is added automatically.</p>
+
+<h2 id="local">11. Local terminal</h2>
+<p>Click <b>Local</b> in the header to open a terminal on your own computer (PowerShell on Windows, your login shell on Linux). Use it next to your server tabs, for example to run <code>tsh</code>, <code>git</code> or <code>kubectl</code>.</p>
+
+<h2 id="settings">12. Settings and appearance</h2>
+<p>Open Settings with the gear at the bottom of the sidebar.</p>
+<ul>
+  <li><b>Appearance</b> — <b>Edit appearance</b> opens your personal <code>appearance.json</code> (colours, fonts, terminal font size, line height, scrollback, cursor). Save the file and click <b>Reload appearance</b>. Remove a value to return to the default.</li>
+  <li><b>Title bar (Linux)</b> — choose the system title bar (recommended) or ShellCat's own. Restart to apply.</li>
+  <li><b>Command model</b> — optionally download a small local model for smarter command search. It runs entirely on your computer.</li>
+  <li><b>About</b> — version and the location of diagnostic logs.</li>
+</ul>
+
+<h2 id="data">13. Data, backup and security</h2>
+<p>ShellCat stores everything locally:</p>
+<table>
+  <tr><th>Platform</th><th>Folder</th></tr>
+  <tr><td>Windows</td><td><code>%APPDATA%\ShellCat</code></td></tr>
+  <tr><td>Linux</td><td><code>~/.config/ShellCat</code></td></tr>
+</table>
+<table>
+  <tr><th>File</th><th>Contents</th></tr>
+  <tr><td><code>vault.sqlite3</code></td><td>Your connections, encrypted with AES-256-GCM</td></tr>
+  <tr><td><code>key.bin</code></td><td>The vault key. On Windows it is protected with DPAPI and only works for your Windows account on this PC.</td></tr>
+  <tr><td><code>known_hosts</code></td><td>Trusted server host keys</td></tr>
+  <tr><td><code>commands.json</code>, <code>scripts.json</code></td><td>Your personal commands and scripts (plain text — do not store secrets in scripts)</td></tr>
+  <tr><td><code>settings.json</code>, <code>appearance.json</code></td><td>Preferences</td></tr>
+  <tr><td><code>logs/</code></td><td>Diagnostic logs (no passwords or command output)</td></tr>
+</table>
+<div class="note"><b>Back up <code>key.bin</code> together with <code>vault.sqlite3</code>.</b> Without the matching key the vault cannot be decrypted. Because the Windows key is bound to your account, copying the folder to another PC or user will not open the vault; export scripts and command packs to move them, and re-create connections on the new machine.</div>
+<p>Security notes: passwords and passphrases never leave the ShellCat background process; host keys are verified on every connection; only one ShellCat window runs at a time to protect the vault.</p>
+
+<h2 id="shortcuts">14. Keyboard shortcuts</h2>
+<table>
+  <tr><th>Shortcut</th><th>Action</th></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td>Command palette</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>Script palette</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></td><td>Teleport panel</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>Close the current dialog</td></tr>
+  <tr><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>Enter</kbd></td><td>Choose a command in the palette</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Save (script editor, file editor)</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd> / <kbd>Ctrl</kbd>+<kbd>H</kbd></td><td>Find / replace in the file editor</td></tr>
+  <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Complete paths in Files; indent in editors</td></tr>
+</table>
+
+<h2 id="troubleshooting">15. Troubleshooting</h2>
+<h3>“Authentication failed”</h3>
+<p>Check the user name and password or key. For keys, make sure the passphrase is saved and the key is in OpenSSH format. For SSH agent, confirm <code>ssh-add -l</code> lists your key.</p>
+<h3>“Cannot reach the server”</h3>
+<p>Check the host, port, VPN and firewall. Try <code>ssh user@host -p port</code> from a terminal to compare.</p>
+<h3>“Host key has changed”</h3>
+<p>Do not continue until you have confirmed the server was legitimately reinstalled or re-keyed. Then remove its line from <code>known_hosts</code> in the data folder and connect again.</p>
+<h3>Teleport: “not logged in” or “expired”</h3>
+<p>Your certificate has expired. Log in again from the Teleport panel.</p>
+<h3>Teleport: “access denied to &lt;login&gt;”</h3>
+<p>Your roles do not allow that Unix login on the server. Choose another login in the Servers tab; the profile on the Account tab lists your allowed logins.</p>
+<h3>Files: “The server refused the SFTP subsystem”</h3>
+<p>See <a href="#files">section 6</a>. On Teleport, file copying may be disabled for your role.</p>
+<h3>Linux: two title bars, or a blank terminal</h3>
+<p>Use the system title bar setting (<a href="#settings">section 12</a>). Install the WebKitGTK package for your distribution (see the <a href="index.html#install">installation guide</a>).</p>
+<h3>ShellCat shows “started with problems”</h3>
+<p>A banner names the component that failed. Logs are in the <code>logs</code> folder (see <a href="#data">section 13</a>). If the vault key cannot be read, restore <code>key.bin</code> from a backup — ShellCat never replaces an existing key.</p>
+<p>Still stuck? <a href="https://github.com/Rudro085/ShellCat-go/issues">Open an issue</a> and attach the relevant lines from the log file (they contain no passwords).</p>
+</article>
+</div>
+
+<footer><div class="wrap">
+  <span>© 2026 ShellCat</span>
+  <span><a href="index.html">Home</a> · <a href="index.html#download">Download</a> · <a href="https://github.com/Rudro085/ShellCat-go">GitHub</a></span>
+</div></footer>
+</body>
+</html>

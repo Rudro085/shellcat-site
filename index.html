@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShellCat — a calm SSH workspace for teams that manage many servers</title>
+<meta name="description" content="ShellCat is a desktop SSH workspace for Windows and Linux: terminal, SFTP, monitoring, one-click server diagnosis for AI analysis, a script palette and native Teleport (tsh) support.">
+<meta property="og:title" content="ShellCat — SSH workspace">
+<meta property="og:description" content="Terminal, files, monitoring, auto diagnosis, scripts and Teleport in one calm desktop app.">
+<meta property="og:image" content="screenshots/hero.png">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<!--
+  RELEASE ASSETS
+  Download buttons point at GitHub's "latest release" URLs:
+    https://github.com/<owner>/<repo>/releases/latest/download/<file name>
+  Edit the values in the <script> block at the bottom of this page if your
+  repository or release file names differ. Every element with a
+  data-asset="..." attribute gets its link from there.
+-->
+<header class="top"><div class="wrap">
+  <a class="brand" href="#"><img src="assets/logo.png" alt="">ShellCat</a>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#download">Download</a>
+    <a href="#install">Install</a>
+    <a href="manual.html">User manual</a>
+    <a data-link="repo" href="https://github.com/Rudro085/ShellCat-go">GitHub</a>
+  </nav>
+</div></header>
+
+<main>
+<div class="hero"><div class="wrap">
+  <img class="logo" src="assets/logo.png" alt="ShellCat logo">
+  <h1>A little closer to your servers.</h1>
+  <p class="lead">ShellCat is a desktop SSH workspace for Windows and Linux. Terminal, files, live monitoring, one-click server diagnosis, reusable scripts and native Teleport access — in one calm, local-first app.</p>
+  <div class="cta">
+    <a class="btn primary" data-asset="windows" href="#download">⬇ Download for Windows<small>64-bit installer</small></a>
+    <a class="btn" data-asset="linuxDeb" href="#download">⬇ Download for Linux<small>.deb package</small></a>
+  </div>
+  <p class="meta"><span data-version>Latest release</span> · Free · <a href="#install">Installation guide</a> · <a href="manual.html">User manual</a></p>
+  <figure class="shot"><img src="screenshots/hero.png" alt="ShellCat main window with the connection sidebar and an open terminal"></figure>
+</div></div>
+
+<section id="features"><div class="wrap">
+  <h2>Everything you do over SSH, in one place</h2>
+  <p class="sub">Built for administrators and developers who look after many machines: organise them once, then reach any server — directly or through Teleport — with every tool ready.</p>
+  <div class="grid">
+    <div class="card"><div class="icon">⌘</div><h3>Fast, modern terminal</h3><p>xterm-256color terminals with tabs, split views, search, adjustable fonts, copy/paste and clickable links. Dead connections are detected by keepalives and can be reconnected in one click.</p></div>
+    <div class="card"><div class="icon">🗂</div><h3>Organised connections</h3><p>Groups, colours and tags for every server. Password, private key (with passphrase), SSH agent and Teleport authentication. Duplicate a server in one click.</p></div>
+    <div class="card"><div class="icon">📜</div><h3>Script palette</h3><p>Save multi-line bash, sh, Python, Perl or Node scripts and run them interactively — sudo and prompts work — on one server or many at once. Import and share script packs.</p></div>
+    <div class="card"><div class="icon">🩺</div><h3>Auto diagnosis</h3><p>One click collects 67 read-only probes — storage, ports, processes, Nginx, Apache, HAProxy, Docker, Supervisor, workers, logs, environment and more — into an editable JSON/Markdown report ready for an AI model.</p></div>
+    <div class="card"><div class="icon">🛡</div><h3>Teleport built in</h3><p>Log in with tsh (SSO, OTP, security keys), browse clusters and nodes by label, request and assume access, and open nodes with full ShellCat features — with automatic fallback to <code>tsh ssh</code>.</p></div>
+    <div class="card"><div class="icon">📁</div><h3>Files over SFTP</h3><p>Browse, upload, download, rename, chmod and delete. Tab completion in the path bar and a built-in editor with find &amp; replace for quick config changes.</p></div>
+    <div class="card"><div class="icon">📈</div><h3>Live monitor</h3><p>CPU, memory, uptime and load, top processes (with one-click SIGTERM) and listening ports, refreshed every few seconds.</p></div>
+    <div class="card"><div class="icon">⇄</div><h3>Port forwarding</h3><p>Local and remote tunnels bound to loopback, managed per connection and closed automatically with it.</p></div>
+    <div class="card"><div class="icon">🔍</div><h3>Command palette</h3><p>2,000+ built-in commands across files, system, Docker, Git, networking and more. Fill in parameters and insert commands for review — nothing runs until you press Enter.</p></div>
+    <div class="card"><div class="icon">🔐</div><h3>Private by design</h3><p>Connections live in a local AES-256-GCM vault whose key is protected by Windows DPAPI. Secrets never reach the UI. Host keys are verified, and diagnosis reports redact passwords and tokens.</p></div>
+    <div class="card"><div class="icon">💻</div><h3>Local terminal</h3><p>Open PowerShell or your Linux shell in a tab next to your servers.</p></div>
+    <div class="card"><div class="icon">🎨</div><h3>Make it yours</h3><p>Every colour, font and terminal setting lives in a simple appearance file. Optional on-device semantic command search.</p></div>
+  </div>
+
+  <div class="feature">
+    <div class="text"><h3>Diagnose a server in one click</h3>
+      <p>Open <b>Monitor → Auto diagnosis</b> and ShellCat gathers a complete, read-only snapshot of the machine:</p>
+      <ul><li>System, kernel limits, memory pressure, disks, inodes and I/O</li><li>Listening ports, firewall rules, connections and DNS</li><li>Nginx/Apache/HAProxy configs and config tests, TLS expiry</li><li>Docker containers, restart loops, health and OOM kills</li><li>Supervisor programs, queue workers, PM2, systemd units and logs</li></ul>
+      <p>Built-in checks highlight problems such as full disks, failing config tests or crash-looping containers. Copy the report for an AI model, or save it as JSON or Markdown.</p></div>
+    <figure class="shot"><img src="screenshots/diagnosis-findings.png" alt="Diagnosis findings"></figure>
+  </div>
+  <div class="feature">
+    <div class="text"><h3>Scripts you can trust to run anywhere</h3>
+      <p>Write a script once — flush iptables, rotate logs, restart workers — and run it whenever you need it. ShellCat uploads it to a private temporary file, runs it in a real interactive terminal and removes it afterwards.</p>
+      <ul><li>Run on several servers at the same time</li><li>Optional sudo and confirmation for dangerous scripts</li><li>Ready-made templates to start from</li></ul></div>
+    <figure class="shot"><img src="screenshots/script-palette.png" alt="Script palette"></figure>
+  </div>
+  <div class="feature">
+    <div class="text"><h3>All your Teleport servers, with every tool</h3>
+      <p>ShellCat uses your installed <code>tsh</code> for logins, so SSO, MFA and hardware keys work exactly as in a terminal. Then browse every cluster and node, filter by label, select many and open them together — with files, monitoring, scripts and diagnosis available.</p>
+      <p>If a node needs per-session MFA, ShellCat opens it with <code>tsh ssh</code> automatically.</p></div>
+    <figure class="shot"><img src="screenshots/teleport-servers.png" alt="Teleport server browser"></figure>
+  </div>
+</div></section>
+
+<section id="download"><div class="wrap">
+  <h2>Download</h2>
+  <p class="sub">ShellCat is free. Pick the package for your system; older versions and release notes are on the <a data-link="releases" href="https://github.com/Rudro085/ShellCat-go/releases">releases page</a>.</p>
+  <div class="downloads">
+    <div class="card dl"><h3>🪟 Windows</h3><p>Windows 10 (1809 or later) and Windows 11, 64-bit.</p>
+      <a class="btn primary" data-asset="windows" href="#">⬇ Installer (.exe)</a><a class="btn" data-asset="windowsPortable" href="#">Portable .exe</a></div>
+    <div class="card dl"><h3>🐧 Linux</h3><p>64-bit distributions with GTK 3 and WebKitGTK (Ubuntu, Debian, Fedora, Arch…).</p>
+      <a class="btn primary" data-asset="linuxDeb" href="#">⬇ Debian / Ubuntu (.deb)</a><a class="btn" data-asset="linuxTar" href="#">Portable binary (.tar.gz)</a></div>
+  </div>
+  <p class="meta">Verify downloads against the checksums published with each release.</p>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <h2>Installation</h2>
+  <div class="grid">
+    <div class="card"><h3>Windows</h3>
+      <ol class="steps">
+        <li>Download <b>the installer</b> and run it.</li>
+        <li>If Windows SmartScreen shows “Windows protected your PC”, choose <b>More info → Run anyway</b> (the installer is not code-signed yet).</li>
+        <li>Follow the wizard. Microsoft Edge WebView2 is installed automatically if it is missing.</li>
+        <li>Start <b>ShellCat</b> from the Start menu.</li>
+      </ol>
+      <p>Portable: put <code>ShellCat-go.exe</code> anywhere and run it (requires WebView2, which is preinstalled on Windows 11).</p></div>
+    <div class="card"><h3>Debian / Ubuntu</h3>
+      <ol class="steps">
+        <li>Download the <code>.deb</code> package.</li>
+        <li>Install it (dependencies are pulled in automatically):<pre><code>sudo apt install ./shellcat_amd64.deb</code></pre></li>
+        <li>Start <b>ShellCat</b> from your application menu.</li>
+      </ol></div>
+    <div class="card"><h3>Other Linux (portable)</h3>
+      <ol class="steps">
+        <li>Install the runtime libraries:<pre><code># Ubuntu 24.04+ / Debian 13
+sudo apt install libgtk-3-0 libwebkit2gtk-4.1-0
+# Ubuntu 22.04 / Debian 12
+sudo apt install libgtk-3-0 libwebkit2gtk-4.0-37
+# Fedora
+sudo dnf install gtk3 webkit2gtk4.1
+# Arch
+sudo pacman -S gtk3 webkit2gtk-4.1</code></pre></li>
+        <li>Extract and run:<pre><code>tar xzf ShellCat-go-linux-amd64.tar.gz
+./ShellCat-go</code></pre></li>
+      </ol></div>
+  </div>
+  <div class="note info"><b>Teleport users:</b> install the <a href="https://goteleport.com/download/">Teleport tsh client</a> (or Teleport Connect). ShellCat finds <code>tsh</code> automatically; you can also set its path in the Teleport panel.</div>
+  <div class="note"><b>Upgrading or moving to a new PC:</b> your connections are stored in an encrypted vault. On Windows the vault key is tied to your Windows account, so back up and restore through ShellCat on the same account. See <a href="manual.html#data">Data, backup and security</a>.</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Get started in a minute</h2>
+  <div class="grid">
+    <div class="card"><h3>1 · Add a server</h3><p>Click <b>New connection</b>, enter host, port, user and choose password, key, SSH agent or Teleport.</p></div>
+    <div class="card"><h3>2 · Connect</h3><p>Click it in the sidebar. Verify the host fingerprint the first time, and you're in.</p></div>
+    <div class="card"><h3>3 · Use the tools</h3><p>Switch between Terminal, Files, Monitor and Tunnels. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> for scripts, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> for commands.</p></div>
+  </div>
+  <p style="margin-top:24px"><a class="btn" href="manual.html">Read the user manual →</a></p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span>© <span data-year>2026</span> ShellCat · Built with Go, Wails and React</span>
+  <span><a data-link="repo" href="https://github.com/Rudro085/ShellCat-go">Source</a> · <a data-link="issues" href="https://github.com/Rudro085/ShellCat-go/issues">Report an issue</a> · <a href="manual.html">Manual</a></span>
+</div></footer>
+
+<div class="lightbox" id="lightbox"><img alt=""></div>
+<script>
+  // ---- Edit these to match your GitHub repository and release files. ----
+  const REPO = 'Rudro085/ShellCat-go';
+  const ASSETS = {
+    windows: 'ShellCat-go-amd64-installer.exe',
+    windowsPortable: 'ShellCat-go.exe',
+    linuxDeb: 'shellcat_amd64.deb',
+    linuxTar: 'ShellCat-go-linux-amd64.tar.gz',
+  };
+  // -------------------------------------------------------------------------
+  const base = `https://github.com/${REPO}`;
+  document.querySelectorAll('[data-asset]').forEach(a => { a.href = `${base}/releases/latest/download/${ASSETS[a.dataset.asset]}`; });
+  const links = { repo: base, releases: `${base}/releases`, issues: `${base}/issues` };
+  document.querySelectorAll('[data-link]').forEach(a => { a.href = links[a.dataset.link]; });
+  document.querySelectorAll('[data-year]').forEach(e => { e.textContent = new Date().getFullYear(); });
+  // Show the latest version number (best effort; the page works without it).
+  fetch(`https://api.github.com/repos/${REPO}/releases/latest`).then(r => r.ok ? r.json() : null).then(r => {
+    if (r && r.tag_name) document.querySelectorAll('[data-version]').forEach(e => { e.textContent = `Latest: ${r.tag_name}`; });
+  }).catch(() => {});
+  const box = document.getElementById('lightbox');
+  document.querySelectorAll('.shot img').forEach(img => img.addEventListener('click', () => { box.querySelector('img').src = img.src; box.classList.add('open'); }));
+  box.addEventListener('click', () => box.classList.remove('open'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') box.classList.remove('open'); });
+</script>
+</body>
+</html>
