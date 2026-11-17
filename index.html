@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ShellCat — a calm SSH workspace for teams that manage many servers</title>
   <meta name="description"
-    content="ShellCat is a desktop SSH workspace for Windows and Linux: terminal, SFTP, monitoring, one-click server diagnosis for AI analysis, a script palette and native Teleport (tsh) support.">
+    content="ShellCat is a desktop SSH workspace for Windows and Linux: terminal, SFTP, a visual Git client, monitoring, one-click server diagnosis for AI analysis, a script palette and native Teleport (tsh) support.">
   <meta property="og:title" content="ShellCat — SSH workspace">
   <meta property="og:description"
-    content="Terminal, files, monitoring, auto diagnosis, scripts and Teleport in one calm desktop app.">
+    content="Terminal, files, Git, monitoring, auto diagnosis, scripts and Teleport in one calm desktop app.">
   <meta property="og:image" content="screenshots/hero.png">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="stylesheet" href="assets/style.css">
@@ -34,14 +34,15 @@
       <div class="wrap">
         <img class="logo" src="assets/logo.png" alt="ShellCat logo">
         <h1>A little closer to your servers.</h1>
-        <p class="lead">ShellCat is a desktop SSH workspace for Windows and Linux. Terminal, files, live monitoring,
-          one-click server diagnosis, reusable scripts and native Teleport access — in one calm, local-first app.</p>
+        <p class="lead">ShellCat is a desktop SSH workspace for Windows and Linux. Terminal, files, a visual Git client,
+          live monitoring, one-click server diagnosis, reusable scripts and native Teleport access — in one calm,
+          local-first app.</p>
         <div class="cta">
           <a class="btn primary"
-            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.1.0/ShellCat-go-amd64-installer.exe">⬇
+            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.2.0/ShellCat-go-amd64-installer.exe">⬇
             Download for Windows<small>64-bit installer</small></a>
           <a class="btn"
-            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.1.0/shellcat_0.1.0_amd64.deb">⬇
+            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.2.0/shellcat_1.2.0_amd64.deb">⬇
             Download for Linux<small>.deb package</small></a>
         </div>
         <p class="meta"><span data-version>Latest release</span> · Free · <a href="#install">Installation guide</a> · <a
@@ -61,7 +62,8 @@
             <div class="icon">⌘</div>
             <h3>Fast, modern terminal</h3>
             <p>xterm-256color terminals with tabs, split views, search, adjustable fonts, copy/paste and clickable
-              links. Dead connections are detected by keepalives and can be reconnected in one click.</p>
+              links. Dead connections are detected by keepalives and can be reconnected in one click. Open PowerShell or
+              your Linux shell in a tab next to your servers.</p>
           </div>
           <div class="card">
             <div class="icon">🗂</div>
@@ -95,6 +97,13 @@
               with find &amp; replace for quick config changes.</p>
           </div>
           <div class="card">
+            <div class="icon">⑂</div>
+            <h3>Visual Git client</h3>
+            <p>A full Source Control view for repositories on your servers: stage single lines, commit, branch,
+              merge, stash, push and pull, resolve conflicts and browse a colour-coded commit graph. Nothing to
+              install on the server.</p>
+          </div>
+          <div class="card">
             <div class="icon">📈</div>
             <h3>Live monitor</h3>
             <p>CPU, memory, uptime and load, top processes (with one-click SIGTERM) and listening ports, refreshed every
@@ -118,11 +127,6 @@
               reach the UI. Host keys are verified, and diagnosis reports redact passwords and tokens.</p>
           </div>
           <div class="card">
-            <div class="icon">💻</div>
-            <h3>Local terminal</h3>
-            <p>Open PowerShell or your Linux shell in a tab next to your servers.</p>
-          </div>
-          <div class="card">
             <div class="icon">🎨</div>
             <h3>Make it yours</h3>
             <p>Every colour, font and terminal setting lives in a simple appearance file. Optional on-device semantic
@@ -130,6 +134,34 @@
           </div>
         </div>
 
+        <div class="feature">
+          <div class="text">
+            <h3>Git on your servers, without the command line</h3>
+            <p>Open a repository in <b>Files</b> and switch to the <b>Git</b> tab — ShellCat finds the repository and
+              shows everything you would otherwise type into the git CLI:</p>
+            <ul>
+              <li>Staged, unstaged, untracked and conflicted files, with side-by-side or inline diffs</li>
+              <li>Stage, unstage or discard a whole file, a hunk or just the lines you select</li>
+              <li>Commit, amend, push, pull and sync, with ahead/behind counts for your branch</li>
+              <li>Checkout, create, merge, rebase and delete branches; stashes, tags and remotes</li>
+              <li>A commit graph with branch lanes and labels — open any commit to see its changes</li>
+              <li>Accept current, incoming or both for each merge conflict, then continue or abort</li>
+            </ul>
+            <p>It runs the server's own <code>git</code> over your existing SSH connection, so there is no agent to
+              install and it works on old distributions too.</p>
+          </div>
+          <figure class="shot"><img src="screenshots/git.png" alt="Git tab with changes, commit box and commit graph"></figure>
+        </div>
+        <div class="feature">
+          <div class="text">
+            <h3>Review every change before you commit</h3>
+            <p>Click a changed file to see exactly what changed. Select individual lines to stage only part of a file,
+              discard a single hunk, or open the file in the editor. Merge conflicts get their own view with
+              <b>Accept Current</b>, <b>Accept Incoming</b> and <b>Accept Both</b> for each block.</p>
+            <p>See the <a href="manual.html#git">Git chapter of the user manual</a> for every action.</p>
+          </div>
+          <figure class="shot"><img src="screenshots/git-diff.png" alt="Side-by-side diff with selected lines ready to stage"></figure>
+        </div>
         <div class="feature">
           <div class="text">
             <h3>Diagnose a server in one click</h3>
@@ -184,14 +216,14 @@
             <h3>🪟 Windows</h3>
             <p>Windows 10 (1809 or later) and Windows 11, 64-bit.</p>
             <a class="btn primary"
-              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.1.0/shellcat_0.1.0_amd64.deb">⬇
+              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.2.0/ShellCat-go-amd64-installer.exe">⬇
               Installer (.exe)</a>
           </div>
           <div class="card dl">
             <h3>🐧 Linux</h3>
             <p>64-bit distributions with GTK 3 and WebKitGTK (Ubuntu, Debian, Fedora, Arch…).</p>
             <a class="btn primary"
-              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.1.0/shellcat_0.1.0_amd64.deb">⬇
+              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.2.0/shellcat_1.2.0_amd64.deb">⬇
               Debian / Ubuntu (.deb)</a>
           </div>
         </div>
@@ -218,7 +250,7 @@
             <ol class="steps">
               <li>Download the <code>.deb</code> package.</li>
               <li>Install it (dependencies are pulled in automatically):
-                <pre><code>sudo apt install ./shellcat_1.0.0_amd64.deb</code></pre>
+                <pre><code>sudo apt install ./shellcat_1.2.0_amd64.deb</code></pre>
               </li>
               <li>Start <b>ShellCat</b> from your application menu.</li>
             </ol>
@@ -247,7 +279,7 @@
           </div>
           <div class="card">
             <h3>3 · Use the tools</h3>
-            <p>Switch between Terminal, Files, Monitor and Tunnels. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>
+            <p>Switch between Terminal, Files, Git, Monitor and Tunnels. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>
               for scripts, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> for commands.</p>
           </div>
         </div>

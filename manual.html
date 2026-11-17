@@ -29,15 +29,16 @@
   <a href="#commands">4. Command palette</a>
   <a href="#scripts">5. Script palette</a>
   <a href="#files">6. Files (SFTP)</a>
-  <a href="#monitor">7. Monitor</a>
-  <a href="#diagnosis">8. Auto diagnosis</a>
-  <a href="#tunnels">9. Tunnels</a>
-  <a href="#teleport">10. Teleport</a>
-  <a href="#local">11. Local terminal</a>
-  <a href="#settings">12. Settings and appearance</a>
-  <a href="#data">13. Data, backup and security</a>
-  <a href="#shortcuts">14. Keyboard shortcuts</a>
-  <a href="#troubleshooting">15. Troubleshooting</a>
+  <a href="#git">7. Git</a>
+  <a href="#monitor">8. Monitor</a>
+  <a href="#diagnosis">9. Auto diagnosis</a>
+  <a href="#tunnels">10. Tunnels</a>
+  <a href="#teleport">11. Teleport</a>
+  <a href="#local">12. Local terminal</a>
+  <a href="#settings">13. Settings and appearance</a>
+  <a href="#data">14. Data, backup and security</a>
+  <a href="#shortcuts">15. Keyboard shortcuts</a>
+  <a href="#troubleshooting">16. Troubleshooting</a>
 </aside>
 
 <article>
@@ -75,7 +76,7 @@
   <li><b>Password</b> — stored encrypted. When editing, leave the field empty to keep the saved password or type a new one to replace it. Switching to another authentication type removes the saved password.</li>
   <li><b>Private key</b> — path to your key file (OpenSSH format, e.g. <code>~/.ssh/id_ed25519</code>) and an optional passphrase. Leave the passphrase empty to keep the saved one, or tick <em>Remove saved passphrase</em>.</li>
   <li><b>SSH agent</b> — uses keys loaded into your agent. On Windows enable the <em>OpenSSH Authentication Agent</em> service and run <code>ssh-add</code>; on Linux ShellCat uses <code>SSH_AUTH_SOCK</code>. Nothing secret is stored.</li>
-  <li><b>Teleport</b> — uses the certificate from <code>tsh login</code>. Enter the proxy address (and optionally the cluster). The easiest way to add these is from the Teleport panel (<a href="#teleport">section 10</a>).</li>
+  <li><b>Teleport</b> — uses the certificate from <code>tsh login</code>. Enter the proxy address (and optionally the cluster). The easiest way to add these is from the Teleport panel (<a href="#teleport">section 11</a>).</li>
 </ul>
 
 <h3 id="hostkeys">Host keys</h3>
@@ -135,11 +136,38 @@
 <figure><img src="screenshots/files.png" alt="File browser"></figure>
 <p>If a server refuses SFTP, ShellCat explains why and offers <b>Use sftp-server for this session</b>, which starts the server's own <code>sftp-server</code> program over SSH. Only use it where your organisation allows file transfer.</p>
 
-<h2 id="monitor">7. Monitor</h2>
+<h2 id="git">7. Git</h2>
+<p>The <b>Git</b> tab is a visual Source Control view for repositories on the server. It runs the server's own <code>git</code> (version 1.8 or newer) over your SSH connection; nothing is installed on the server. Clone or initialise repositories in the terminal, then use the Git tab for everything else.</p>
+<figure><img src="screenshots/git.png" alt="Git tab"></figure>
+<h3>Opening a repository</h3>
+<p>The Git tab follows the folder open in <b>Files</b>: open any folder inside a repository there, then switch to Git. You can also type a path in the bar at the top; <b>Follow Files</b> switches back. Recently used repositories are offered when a folder is not a repository. The view refreshes by itself every few seconds and when you return to ShellCat.</p>
+<h3>Changes and commits</h3>
+<ul>
+  <li>Files are grouped into <b>Merge Changes</b>, <b>Staged Changes</b>, <b>Changes</b> and <b>Stashes</b>, each marked with a letter (M modified, A added, D deleted, R renamed, U untracked, ! conflict). Hover a file for <b>Open file</b>, <b>Discard</b> and <b>Stage</b>/<b>Unstage</b>; right-click for more, including <b>Add to .gitignore</b>.</li>
+  <li>Click a file to see its diff, side by side or inline. <b>Stage hunk</b>, <b>Unstage hunk</b> and <b>Discard hunk</b> act on one block. Click changed lines (<kbd>Shift</kbd>-click for a range) to stage, unstage or discard only those lines.</li>
+  <li>Write a message and press <b>Commit</b> or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>. If nothing is staged, ShellCat offers to commit all changes. The ▾ menu adds <b>Commit (Amend)</b>, <b>Commit &amp; Push</b> and <b>Commit &amp; Sync</b>.</li>
+  <li>If the server has no Git name and email yet, ShellCat asks for them on the first commit and can save them for the repository, for your user, or for that commit only.</li>
+</ul>
+<figure><img src="screenshots/git-diff.png" alt="Staging selected lines"></figure>
+<h3>Branches, sync and history</h3>
+<ul>
+  <li>Click the branch name to check out a branch, remote branch or tag, or to create a branch. If local changes would be overwritten, ShellCat offers to stash them first.</li>
+  <li>The sync button shows commits to pull (↓) and push (↑) and runs pull then push; for a new branch it becomes <b>Publish Branch</b>. Long network operations show progress and can be cancelled.</li>
+  <li>The <b>…</b> menu contains every other action: pull (merge or rebase), push (including force with lease), fetch, undo last commit, stage/unstage/discard all, merge, rebase, rename and delete branches, remotes, stashes and tags, and the <b>Git output</b> log of every command ShellCat ran.</li>
+  <li>The <b>Graph</b> shows your history with coloured branch lanes, branch and tag labels and authors; switch between <b>Current</b> and <b>All branches</b>. Click a commit to list its files and open their diffs. Right-click a commit to check it out, create a branch or tag there, cherry-pick, revert or reset; right-click a label to check out, merge, rebase onto or delete it.</li>
+</ul>
+<figure><img src="screenshots/git-branches.png" alt="Branch picker"></figure>
+<h3>Merge conflicts</h3>
+<p>When a merge, rebase, cherry-pick or revert stops on conflicts, a banner shows the operation with <b>Continue</b>, <b>Skip</b> (where it applies) and <b>Abort</b>. Conflicted files appear under <b>Merge Changes</b>; click one to resolve each conflict with <b>Accept Current</b>, <b>Accept Incoming</b> or <b>Accept Both</b>, then <b>Save &amp; mark resolved</b>. You can also take one side for the whole file or edit it by hand.</p>
+<figure><img src="screenshots/git-conflict.png" alt="Resolving a merge conflict"></figure>
+<h3>Authentication for push and pull</h3>
+<p>Push, pull and fetch use the server's own credentials — a deploy key, an SSH key or a credential helper on the server. ShellCat cannot answer password or host-key prompts; if Git needs one, it stops with an explanation. Run the same command once in the terminal, or set up a key on the server.</p>
+
+<h2 id="monitor">8. Monitor</h2>
 <p>Switch to <b>Monitor → Live telemetry</b> to see CPU, memory, uptime and load averages, the top 20 processes by CPU, and listening ports. The view refreshes every four seconds while it is visible. Click ■ next to a process to send it <code>SIGTERM</code> (after confirmation).</p>
 <figure><img src="screenshots/monitor.png" alt="Live monitor"></figure>
 
-<h2 id="diagnosis">8. Auto diagnosis</h2>
+<h2 id="diagnosis">9. Auto diagnosis</h2>
 <p>Open <b>Monitor → Auto diagnosis</b> and click <b>Run diagnosis</b>. ShellCat runs a fixed set of 67 <b>read-only</b> probes and builds a report. A run usually takes 10–60 seconds; you can switch tabs while it runs or cancel it.</p>
 <h3>What is collected</h3>
 <table>
@@ -169,7 +197,7 @@
 <figure><img src="screenshots/diagnosis-findings.png" alt="Diagnosis findings"></figure>
 <figure><img src="screenshots/diagnosis-report.png" alt="Diagnosis report"></figure>
 
-<h2 id="tunnels">9. Tunnels</h2>
+<h2 id="tunnels">10. Tunnels</h2>
 <p>Switch to <b>Tunnels</b> and click <b>Add tunnel</b>.</p>
 <ul>
   <li><b>Local → remote</b>: listens on your computer (127.0.0.1) and forwards to a host and port reachable from the server — for example a database on the server's private network.</li>
@@ -178,7 +206,7 @@
 <p>Click <b>Start</b> to activate a tunnel and <b>Active</b> to stop it. Tunnels close when their connection closes.</p>
 <figure><img src="screenshots/tunnels.png" alt="Tunnels"></figure>
 
-<h2 id="teleport">10. Teleport</h2>
+<h2 id="teleport">11. Teleport</h2>
 <p>ShellCat works with your installed Teleport <code>tsh</code> client. Open the panel with <b>Teleport</b> in the header or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>.</p>
 <h3>Logging in</h3>
 <ol>
@@ -207,10 +235,10 @@
 <h3>tsh console</h3>
 <p>Run any other tsh command — <code>db ls</code>, <code>kube ls</code>, <code>apps ls</code>, <code>recordings ls</code> and so on — in an embedded terminal. The current proxy is added automatically.</p>
 
-<h2 id="local">11. Local terminal</h2>
+<h2 id="local">12. Local terminal</h2>
 <p>Click <b>Local</b> in the header to open a terminal on your own computer (PowerShell on Windows, your login shell on Linux). Use it next to your server tabs, for example to run <code>tsh</code>, <code>git</code> or <code>kubectl</code>.</p>
 
-<h2 id="settings">12. Settings and appearance</h2>
+<h2 id="settings">13. Settings and appearance</h2>
 <p>Open Settings with the gear at the bottom of the sidebar.</p>
 <ul>
   <li><b>Appearance</b> — <b>Edit appearance</b> opens your personal <code>appearance.json</code> (colours, fonts, terminal font size, line height, scrollback, cursor). Save the file and click <b>Reload appearance</b>. Remove a value to return to the default.</li>
@@ -219,7 +247,7 @@
   <li><b>About</b> — version and the location of diagnostic logs.</li>
 </ul>
 
-<h2 id="data">13. Data, backup and security</h2>
+<h2 id="data">14. Data, backup and security</h2>
 <p>ShellCat stores everything locally:</p>
 <table>
   <tr><th>Platform</th><th>Folder</th></tr>
@@ -238,7 +266,7 @@
 <div class="note"><b>Back up <code>key.bin</code> together with <code>vault.sqlite3</code>.</b> Without the matching key the vault cannot be decrypted. Because the Windows key is bound to your account, copying the folder to another PC or user will not open the vault; export scripts and command packs to move them, and re-create connections on the new machine.</div>
 <p>Security notes: passwords and passphrases never leave the ShellCat background process; host keys are verified on every connection; only one ShellCat window runs at a time to protect the vault.</p>
 
-<h2 id="shortcuts">14. Keyboard shortcuts</h2>
+<h2 id="shortcuts">15. Keyboard shortcuts</h2>
 <table>
   <tr><th>Shortcut</th><th>Action</th></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td>Command palette</td></tr>
@@ -249,9 +277,11 @@
   <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Save (script editor, file editor)</td></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd> / <kbd>Ctrl</kbd>+<kbd>H</kbd></td><td>Find / replace in the file editor</td></tr>
   <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Complete paths in Files; indent in editors</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td><td>Commit in the Git tab</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>Search files by name or contents in Files</td></tr>
 </table>
 
-<h2 id="troubleshooting">15. Troubleshooting</h2>
+<h2 id="troubleshooting">16. Troubleshooting</h2>
 <h3>“Authentication failed”</h3>
 <p>Check the user name and password or key. For keys, make sure the passphrase is saved and the key is in OpenSSH format. For SSH agent, confirm <code>ssh-add -l</code> lists your key.</p>
 <h3>“Cannot reach the server”</h3>
@@ -264,10 +294,14 @@
 <p>Your roles do not allow that Unix login on the server. Choose another login in the Servers tab; the profile on the Account tab lists your allowed logins.</p>
 <h3>Files: “The server refused the SFTP subsystem”</h3>
 <p>See <a href="#files">section 6</a>. On Teleport, file copying may be disabled for your role.</p>
+<h3>Git: “Git does not trust this folder”</h3>
+<p>The repository belongs to another user (for example <code>www-data</code>), and Git refuses to work in it. Click <b>Trust this folder for my user</b>, which runs <code>git config --global --add safe.directory</code> for that folder on the server.</p>
+<h3>Git: push or pull asks for a password</h3>
+<p>ShellCat cannot type passwords or accept host keys for Git. See <a href="#git">section 7</a>: run the command once in the terminal, or set up an SSH key or credential helper on the server.</p>
 <h3>Linux: two title bars, or a blank terminal</h3>
-<p>Use the system title bar setting (<a href="#settings">section 12</a>). Install the WebKitGTK package for your distribution (see the <a href="index.html#install">installation guide</a>).</p>
+<p>Use the system title bar setting (<a href="#settings">section 13</a>). Install the WebKitGTK package for your distribution (see the <a href="index.html#install">installation guide</a>).</p>
 <h3>ShellCat shows “started with problems”</h3>
-<p>A banner names the component that failed. Logs are in the <code>logs</code> folder (see <a href="#data">section 13</a>). If the vault key cannot be read, restore <code>key.bin</code> from a backup — ShellCat never replaces an existing key.</p>
+<p>A banner names the component that failed. Logs are in the <code>logs</code> folder (see <a href="#data">section 14</a>). If the vault key cannot be read, restore <code>key.bin</code> from a backup — ShellCat never replaces an existing key.</p>
 <p>Still stuck? <a href="https://github.com/Rudro085/ShellCat-go/issues">Open an issue</a> and attach the relevant lines from the log file (they contain no passwords).</p>
 </article>
 </div>
