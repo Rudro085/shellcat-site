@@ -45,7 +45,7 @@
             href="https://github.com/Rudro085/shellcat-site/releases/download/v1.2.0/shellcat_1.2.0_amd64.deb">⬇
             Download for Linux<small>.deb package</small></a>
         </div>
-        <p class="meta"><span data-version>Latest release</span> · Free · <a href="#install">Installation guide</a> · <a
+        <p class="meta"><span data-version>Latest release</span><span class="dl-count" data-downloads="total" hidden></span> · Free · <a href="#install">Installation guide</a> · <a
             href="manual.html">User manual</a></p>
         <figure class="shot"><img src="screenshots/hero.png"
             alt="ShellCat main window with the connection sidebar and an open terminal"></figure>
@@ -218,6 +218,7 @@
             <a class="btn primary"
               href="https://github.com/Rudro085/shellcat-site/releases/download/v1.2.0/ShellCat-go-amd64-installer.exe">⬇
               Installer (.exe)</a>
+            <p class="dl-count-card" data-downloads="windows" hidden></p>
           </div>
           <div class="card dl">
             <h3>🐧 Linux</h3>
@@ -225,6 +226,7 @@
             <a class="btn primary"
               href="https://github.com/Rudro085/shellcat-site/releases/download/v1.2.0/shellcat_1.2.0_amd64.deb">⬇
               Debian / Ubuntu (.deb)</a>
+            <p class="dl-count-card" data-downloads="linux" hidden></p>
           </div>
         </div>
         <p class="meta">Verify downloads against the checksums published with each release.</p>
@@ -304,10 +306,32 @@
     const links = { repo: base, releases: `${base}/releases`, issues: `${base}/issues` };
     document.querySelectorAll('[data-link]').forEach(a => { a.href = links[a.dataset.link]; });
     document.querySelectorAll('[data-year]').forEach(e => { e.textContent = new Date().getFullYear(); });
-    // Show the latest version number (best effort; the page works without it).
-    fetch(`https://api.github.com/repos/${REPO}/releases/latest`).then(r => r.ok ? r.json() : null).then(r => {
-      if (r && r.tag_name) document.querySelectorAll('[data-version]').forEach(e => { e.textContent = `Latest: ${r.tag_name}`; });
-    }).catch(() => { });
+    // Latest version and download counts, from GitHub's public release data (best effort; the page
+    // works without it). GitHub counts every download of a release file; results are cached for 10
+    // minutes per visitor to stay far below the API's rate limit.
+    const showReleases = releases => {
+      const published = releases.filter(r => !r.draft && !r.prerelease);
+      if (published[0]) document.querySelectorAll('[data-version]').forEach(e => { e.textContent = `Latest: ${published[0].tag_name}`; });
+      const counts = { total: 0, windows: 0, linux: 0 };
+      for (const rel of releases) for (const a of rel.assets || []) {
+        counts.total += a.download_count;
+        if (/\.(exe|msi)$/i.test(a.name)) counts.windows += a.download_count;
+        else if (/\.(deb|rpm|appimage|tar\.gz)$/i.test(a.name)) counts.linux += a.download_count;
+      }
+      if (!counts.total) return;
+      const n = v => v.toLocaleString('en-US');
+      const text = { total: ` · ${n(counts.total)} downloads`, windows: `${n(counts.windows)} downloads`, linux: `${n(counts.linux)} downloads` };
+      document.querySelectorAll('[data-downloads]').forEach(e => { e.textContent = text[e.dataset.downloads]; e.hidden = false; });
+    };
+    (async () => {
+      const key = 'shellcat-releases';
+      try { const c = JSON.parse(sessionStorage.getItem(key) || 'null'); if (c && Date.now() - c.at < 600000) return showReleases(c.data); } catch { }
+      const res = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=100`);
+      if (!res.ok) return;
+      const data = (await res.json()).map(r => ({ tag_name: r.tag_name, draft: r.draft, prerelease: r.prerelease, assets: (r.assets || []).map(a => ({ name: a.name, download_count: a.download_count })) }));
+      try { sessionStorage.setItem(key, JSON.stringify({ at: Date.now(), data })); } catch { }
+      showReleases(data);
+    })().catch(() => { });
     const box = document.getElementById('lightbox');
     document.querySelectorAll('.shot img').forEach(img => img.addEventListener('click', () => { box.querySelector('img').src = img.src; box.classList.add('open'); }));
     box.addEventListener('click', () => box.classList.remove('open'));
