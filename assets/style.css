@@ -12,7 +12,8 @@ pre code{background:none;border:0;padding:0}
 header.top{position:sticky;top:0;z-index:10;background:#14181dcc;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 header.top .wrap{display:flex;align-items:center;gap:18px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:650;font-size:18px}
-.brand img{width:32px;height:32px}
+.brand img{height:48px;width:auto;display:block}
+.brand:hover{text-decoration:none}
 nav{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
 nav a{color:var(--muted);font-size:14px}nav a:hover{color:var(--text);text-decoration:none}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-weight:600;font-size:15px}
@@ -21,7 +22,7 @@ nav a{color:var(--muted);font-size:14px}nav a:hover{color:var(--text);text-decor
 .btn.primary:hover{background:#9cc4ff}
 .btn small{display:block;font-weight:400;font-size:12px;opacity:.75}
 .hero{padding:72px 0 40px;text-align:center}
-.hero img.logo{width:96px;height:96px}
+.hero img.logo{height:180px;width:auto;display:block;margin:0 auto}
 .hero h1{font-size:clamp(34px,5vw,54px);line-height:1.1;margin:18px 0 12px;letter-spacing:-.02em}
 .hero p.lead{color:var(--muted);font-size:19px;max-width:720px;margin:0 auto 28px}
 .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}

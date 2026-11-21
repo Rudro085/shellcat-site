@@ -7,9 +7,11 @@ and `manual.html` (user manual). No build step, no external dependencies.
 
 `screenshots/` contains real captures of the ShellCat interface with fictional demo
 data (example.com hosts, a demo Teleport cluster, a generated diagnosis report).
-The landing page uses `hero.png`, `diagnosis-findings.png`, `script-palette.png` and
-`teleport-servers.png`; the manual uses all twelve. To replace one, overwrite it with
-a 1600 × 1000 PNG of the same name, and keep real hostnames, IPs and cluster names out of it.
+The landing page uses `hero.png`, `git.png`, `git-diff.png`, `git-clone.png`,
+`autocomplete.png`, `keychain.png`, `zen.png`, `themes.png`, `diagnosis-findings.png`,
+`script-palette.png` and `teleport-servers.png`; the manual uses all twenty-one. To replace
+one, overwrite it with a 1600 × 1000 PNG of the same name, and keep real hostnames, IPs and
+cluster names out of it.
 
 ## 2. Check the download links
 

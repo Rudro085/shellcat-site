@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ShellCat user manual</title>
 <meta name="description" content="How to use ShellCat: connections, terminal, files, monitor, auto diagnosis, scripts, Teleport, tunnels and settings.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="index.html"><img src="assets/logo.png" alt="">ShellCat</a>
+  <a class="brand" href="index.html"><img src="assets/logo-lockup.svg" alt="ShellCat" width="72" height="48"></a>
   <nav>
     <a href="index.html#features">Features</a>
     <a href="index.html#download">Download</a>
@@ -24,8 +26,10 @@
   <a href="#start">1. Getting started</a>
   <a href="#connections">2. Connections</a>
   <a class="lvl2" href="#auth">Authentication types</a>
+  <a class="lvl2" href="#keychain">Keychain</a>
   <a class="lvl2" href="#hostkeys">Host keys</a>
   <a href="#terminal">3. Terminal and tabs</a>
+  <a class="lvl2" href="#autocomplete">Autocomplete</a>
   <a href="#commands">4. Command palette</a>
   <a href="#scripts">5. Script palette</a>
   <a href="#files">6. Files (SFTP)</a>
@@ -74,22 +78,38 @@
 <h3 id="auth">Authentication types</h3>
 <ul>
   <li><b>Password</b> — stored encrypted. When editing, leave the field empty to keep the saved password or type a new one to replace it. Switching to another authentication type removes the saved password.</li>
-  <li><b>Private key</b> — path to your key file (OpenSSH format, e.g. <code>~/.ssh/id_ed25519</code>) and an optional passphrase. Leave the passphrase empty to keep the saved one, or tick <em>Remove saved passphrase</em>.</li>
+  <li><b>Private key</b> — choose <b>From keychain</b> to pick a key you added to the keychain (see below), or <b>Key file</b> for the path to a key file (OpenSSH format, e.g. <code>~/.ssh/id_ed25519</code>) and an optional passphrase. Leave the passphrase empty to keep the saved one, or tick <em>Remove saved passphrase</em>.</li>
   <li><b>SSH agent</b> — uses keys loaded into your agent. On Windows enable the <em>OpenSSH Authentication Agent</em> service and run <code>ssh-add</code>; on Linux ShellCat uses <code>SSH_AUTH_SOCK</code>. Nothing secret is stored.</li>
   <li><b>Teleport</b> — uses the certificate from <code>tsh login</code>. Enter the proxy address (and optionally the cluster). The easiest way to add these is from the Teleport panel (<a href="#teleport">section 11</a>).</li>
 </ul>
 
+<h3 id="keychain">Keychain</h3>
+<p>Click <b>Keychain</b> in the header to manage your SSH private keys in one place. Keys are stored encrypted in your vault, and the private key is never shown again after you add it.</p>
+<ul>
+  <li><b>Add a key</b> — choose a key file, paste a key, or generate a new <b>Ed25519</b> or <b>RSA 4096</b> key. If the key has a passphrase, enter it once; ShellCat stores it with the key so connecting never asks for it.</li>
+  <li>Each key shows its type and fingerprint and which connections use it. Use the buttons to copy the public key (for the server's <code>~/.ssh/authorized_keys</code>), rename it, export the private key or delete it. ShellCat warns you before deleting a key that connections still use.</li>
+  <li>In a connection's settings, choose <b>Private key → From keychain</b> and pick the key. <b>Manage keychain</b> opens this panel.</li>
+</ul>
+<figure><img src="screenshots/keychain.png" alt="Keychain"></figure>
+
 <h3 id="hostkeys">Host keys</h3>
-<p>The first time you connect to a server, ShellCat shows its fingerprint. Compare it with a trusted source and click <b>Trust host &amp; connect</b>. If a known server's key changes later, ShellCat refuses to connect and warns you — this can indicate a man-in-the-middle attack or a reinstalled server. Teleport servers are verified automatically against your cluster's host certificate authority.</p>
+<p>The first time you connect to a server, ShellCat shows its fingerprint. Compare it with a trusted source and click <b>Trust host &amp; connect</b>. If a known server's key changes later, ShellCat stops and shows the previous and the new fingerprint — this can indicate a man-in-the-middle attack or a reinstalled server. Only if you are sure the change is legitimate, type the server's name to confirm and click <b>Replace key &amp; connect</b>. Teleport servers are verified automatically against your cluster's host certificate authority.</p>
 
 <h2 id="terminal">3. Terminal and tabs</h2>
 <ul>
   <li>Each connection opens in its own tab. Open the same server twice for two independent shells.</li>
-  <li><b>Split</b> the workspace side by side or top and bottom with the split buttons on the right of the tool bar.</li>
+  <li><b>Split</b> the workspace side by side or top and bottom with the split buttons on the right of the tool bar, or drag a tab to the side of the workspace.</li>
+  <li><b>Full screen</b> — press <kbd>F11</kbd> or the full-screen button to hide the sidebar and header. A compact bar at the top keeps your tabs, the Terminal, Files, Git, Monitor and Tunnels views and the split buttons; press <kbd>F11</kbd> again to leave. <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> collapses the sidebar to a narrow rail.</li>
   <li>The terminal tool bar offers <b>find</b>, font size, <b>clear</b>, the command palette and <b>reconnect</b>.</li>
-  <li>Select text to copy it; right-click for <b>Copy</b> and <b>Paste</b>. Links can be opened after a confirmation.</li>
+  <li>Select text to copy it; right-click for <b>Copy</b> and <b>Paste</b>. Links and file paths in the output can be opened with a click.</li>
   <li>If the network drops, ShellCat detects it within about a minute and shows <b>Reconnect</b>.</li>
+  <li>Closing ShellCat while sessions, transfers or unsaved files are open asks you to confirm first.</li>
 </ul>
+<figure><img src="screenshots/zen.png" alt="Full-screen workspace split into a terminal and a monitor"></figure>
+<h3 id="autocomplete">Autocomplete and shell integration</h3>
+<p>While you type at the prompt, the rest of a likely command appears in gray after the cursor. Suggestions come from your history on that server (commands you ran in ShellCat, newest first), the built-in command catalogue, and file and folder names for the word you are typing. Press <kbd>→</kbd> to accept the whole suggestion or <kbd>Ctrl</kbd>+<kbd>→</kbd> for one word. <kbd>Tab</kbd> is still your shell's own completion.</p>
+<figure><img src="screenshots/autocomplete.png" alt="Autocomplete in the terminal"></figure>
+<p>Autocomplete needs <b>shell integration</b>, which ShellCat sets up for bash and zsh when a session starts. It also marks every command with its exit status (green for success, red for failure), lets <kbd>Ctrl</kbd>+<kbd>↑</kbd> and <kbd>Ctrl</kbd>+<kbd>↓</kbd> jump between commands, makes relative paths clickable and lets the Git tab follow your terminal's folder. Right-click the terminal to turn autocomplete, command hints or shell integration on or off, or to clear the remembered commands for that server.</p>
 
 <h2 id="commands">4. Command palette</h2>
 <p>Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>. Type a few words describing what you want (for example <em>docker logs</em> or <em>disk usage</em>) and pick a command with the arrow keys and <kbd>Enter</kbd>.</p>
@@ -132,15 +152,19 @@
   <li>Upload and download with the tool bar buttons; progress and speed appear in the transfer queue, and transfers can be cancelled.</li>
   <li>Create files and folders, rename, change permissions and delete.</li>
   <li>Open a small text file to edit it: <kbd>Ctrl</kbd>+<kbd>F</kbd> find, <kbd>Ctrl</kbd>+<kbd>H</kbd> replace, <kbd>Ctrl</kbd>+<kbd>S</kbd> save. Saving writes to a temporary file first and then replaces the original.</li>
+  <li>Prefer your own editor? Add VS Code, Notepad++ or any other program in <b>Settings → Editors</b> and use <b>Open with</b> on a file. ShellCat downloads a private copy, opens it in that editor and uploads it again each time you save.</li>
 </ul>
 <figure><img src="screenshots/files.png" alt="File browser"></figure>
 <p>If a server refuses SFTP, ShellCat explains why and offers <b>Use sftp-server for this session</b>, which starts the server's own <code>sftp-server</code> program over SSH. Only use it where your organisation allows file transfer.</p>
 
 <h2 id="git">7. Git</h2>
-<p>The <b>Git</b> tab is a visual Source Control view for repositories on the server. It runs the server's own <code>git</code> (version 1.8 or newer) over your SSH connection; nothing is installed on the server. Clone or initialise repositories in the terminal, then use the Git tab for everything else.</p>
+<p>The <b>Git</b> tab is a visual Source Control view for repositories on the server. It runs the server's own <code>git</code> (version 1.8 or newer) over your SSH connection; nothing is installed on the server.</p>
 <figure><img src="screenshots/git.png" alt="Git tab"></figure>
 <h3>Opening a repository</h3>
 <p>The Git tab follows the folder open in <b>Files</b>: open any folder inside a repository there, then switch to Git. You can also type a path in the bar at the top; <b>Follow Files</b> switches back. Recently used repositories are offered when a folder is not a repository. The view refreshes by itself every few seconds and when you return to ShellCat.</p>
+<h3 id="clone">Cloning a repository</h3>
+<p>When the folder is not a repository, the Git tab offers <b>Clone a repository</b> and <b>Initialize a repository here</b>. Enter the HTTPS or SSH address, the folder to clone into and, if you like, a different folder name. Under <b>Options</b> you can clone a single branch or tag, only the latest commit (much faster for big repositories) or include submodules. For HTTPS addresses, <b>Sign in with</b> picks the saved Git account for that host; SSH addresses use the SSH keys on the server.</p>
+<figure><img src="screenshots/git-clone.png" alt="Cloning a repository"></figure>
 <h3>Changes and commits</h3>
 <ul>
   <li>Files are grouped into <b>Merge Changes</b>, <b>Staged Changes</b>, <b>Changes</b> and <b>Stashes</b>, each marked with a letter (M modified, A added, D deleted, R renamed, U untracked, ! conflict). Hover a file for <b>Open file</b>, <b>Discard</b> and <b>Stage</b>/<b>Unstage</b>; right-click for more, including <b>Add to .gitignore</b>.</li>
@@ -160,8 +184,9 @@
 <h3>Merge conflicts</h3>
 <p>When a merge, rebase, cherry-pick or revert stops on conflicts, a banner shows the operation with <b>Continue</b>, <b>Skip</b> (where it applies) and <b>Abort</b>. Conflicted files appear under <b>Merge Changes</b>; click one to resolve each conflict with <b>Accept Current</b>, <b>Accept Incoming</b> or <b>Accept Both</b>, then <b>Save &amp; mark resolved</b>. You can also take one side for the whole file or edit it by hand.</p>
 <figure><img src="screenshots/git-conflict.png" alt="Resolving a merge conflict"></figure>
-<h3>Authentication for push and pull</h3>
-<p>Push, pull and fetch use the server's own credentials — a deploy key, an SSH key or a credential helper on the server. ShellCat cannot answer password or host-key prompts; if Git needs one, it stops with an explanation. Run the same command once in the terminal, or set up a key on the server.</p>
+<h3 id="gitaccounts">Git accounts and authentication</h3>
+<p>For HTTPS repositories, add your accounts once in <b>Settings → Git</b>: choose GitHub, GitLab, Bitbucket or another host, and enter a personal access token (an app password on Bitbucket). You can also set the commit name and email to use in repositories you clone with the account. The token is stored encrypted in your vault and passed to Git only for the command that needs it; it is never saved on the server or shown in its process list. Each repository remembers which account it uses for fetch, pull and push.</p>
+<p>Without an account, push, pull and fetch use the server's own credentials — a deploy key, an SSH key or a credential helper on the server. ShellCat cannot answer password or host-key prompts; if Git needs one, it stops with an explanation. Run the same command once in the terminal, or set up a key on the server.</p>
 
 <h2 id="monitor">8. Monitor</h2>
 <p>Switch to <b>Monitor → Live telemetry</b> to see CPU, memory, uptime and load averages, the top 20 processes by CPU, and listening ports. The view refreshes every four seconds while it is visible. Click ■ next to a process to send it <code>SIGTERM</code> (after confirmation).</p>
@@ -241,11 +266,13 @@
 <h2 id="settings">13. Settings and appearance</h2>
 <p>Open Settings with the gear at the bottom of the sidebar.</p>
 <ul>
-  <li><b>Appearance</b> — <b>Edit appearance</b> opens your personal <code>appearance.json</code> (colours, fonts, terminal font size, line height, scrollback, cursor). Save the file and click <b>Reload appearance</b>. Remove a value to return to the default.</li>
-  <li><b>Title bar (Linux)</b> — choose the system title bar (recommended) or ShellCat's own. Restart to apply.</li>
+  <li><b>Appearance</b> — pick one of six built-in themes: <b>Night</b>, <b>Daylight</b>, <b>Paper</b>, <b>Ember</b>, <b>Phosphor</b> or <b>High Contrast</b>. Every theme meets WCAG AA contrast, and High Contrast meets AAA. Applying a theme keeps your terminal font size, line height, scrollback and cursor setting, and saves your previous appearance as <code>appearance.previous.json</code>. Under <b>Customize</b>, <b>Edit appearance</b> opens your personal <code>appearance.json</code> (colours, fonts and terminal settings); save it and click <b>Reload appearance</b>. Remove a value to return to the default.</li>
+  <li><b>Editors</b> — the editors offered by <b>Open with</b> in Files, and which one opens files by default. Editors found on your computer are listed for one-click adding.</li>
+  <li><b>Git</b> — your Git accounts for HTTPS repositories (see <a href="#gitaccounts">section 7</a>).</li>
   <li><b>Command model</b> — optionally download a small local model for smarter command search. It runs entirely on your computer.</li>
   <li><b>About</b> — version and the location of diagnostic logs.</li>
 </ul>
+<figure><img src="screenshots/themes.png" alt="Choosing a theme in Settings → Appearance"></figure>
 
 <h2 id="data">14. Data, backup and security</h2>
 <p>ShellCat stores everything locally:</p>
@@ -256,8 +283,8 @@
 </table>
 <table>
   <tr><th>File</th><th>Contents</th></tr>
-  <tr><td><code>vault.sqlite3</code></td><td>Your connections, encrypted with AES-256-GCM</td></tr>
-  <tr><td><code>key.bin</code></td><td>The vault key. On Windows it is protected with DPAPI and only works for your Windows account on this PC.</td></tr>
+  <tr><td><code>vault.sqlite3</code></td><td>Your connections, keychain keys and Git account tokens, encrypted with AES-256-GCM</td></tr>
+  <tr><td><code>key.bin</code></td><td>The vault key. On Windows it is protected with DPAPI and only works for your Windows account on this PC. On Linux it is protected with your desktop keyring (for example GNOME Keyring or KWallet) when one is available.</td></tr>
   <tr><td><code>known_hosts</code></td><td>Trusted server host keys</td></tr>
   <tr><td><code>commands.json</code>, <code>scripts.json</code></td><td>Your personal commands and scripts (plain text — do not store secrets in scripts)</td></tr>
   <tr><td><code>settings.json</code>, <code>appearance.json</code></td><td>Preferences</td></tr>
@@ -272,6 +299,10 @@
   <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td>Command palette</td></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>Script palette</td></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></td><td>Teleport panel</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>Full screen (zen mode) on and off</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd></td><td>Collapse or expand the sidebar</td></tr>
+  <tr><td><kbd>→</kbd> / <kbd>Ctrl</kbd>+<kbd>→</kbd></td><td>Accept the autocomplete suggestion / one word of it</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>↑</kbd> / <kbd>Ctrl</kbd>+<kbd>↓</kbd></td><td>Jump to the previous / next command in the terminal</td></tr>
   <tr><td><kbd>Esc</kbd></td><td>Close the current dialog</td></tr>
   <tr><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>Enter</kbd></td><td>Choose a command in the palette</td></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Save (script editor, file editor)</td></tr>
@@ -287,7 +318,7 @@
 <h3>“Cannot reach the server”</h3>
 <p>Check the host, port, VPN and firewall. Try <code>ssh user@host -p port</code> from a terminal to compare.</p>
 <h3>“Host key has changed”</h3>
-<p>Do not continue until you have confirmed the server was legitimately reinstalled or re-keyed. Then remove its line from <code>known_hosts</code> in the data folder and connect again.</p>
+<p>Do not continue until you have confirmed the server was legitimately reinstalled or re-keyed. Then type the server's name in the warning and click <b>Replace key &amp; connect</b> (see <a href="#hostkeys">Host keys</a>).</p>
 <h3>Teleport: “not logged in” or “expired”</h3>
 <p>Your certificate has expired. Log in again from the Teleport panel.</p>
 <h3>Teleport: “access denied to &lt;login&gt;”</h3>
@@ -297,9 +328,9 @@
 <h3>Git: “Git does not trust this folder”</h3>
 <p>The repository belongs to another user (for example <code>www-data</code>), and Git refuses to work in it. Click <b>Trust this folder for my user</b>, which runs <code>git config --global --add safe.directory</code> for that folder on the server.</p>
 <h3>Git: push or pull asks for a password</h3>
-<p>ShellCat cannot type passwords or accept host keys for Git. See <a href="#git">section 7</a>: run the command once in the terminal, or set up an SSH key or credential helper on the server.</p>
-<h3>Linux: two title bars, or a blank terminal</h3>
-<p>Use the system title bar setting (<a href="#settings">section 13</a>). Install the WebKitGTK package for your distribution (see the <a href="index.html#install">installation guide</a>).</p>
+<p>For HTTPS repositories, add a Git account with a personal access token in <b>Settings → Git</b> and choose it for the repository. Otherwise ShellCat cannot type passwords or accept host keys for Git: run the command once in the terminal, or set up an SSH key or credential helper on the server (see <a href="#gitaccounts">section 7</a>).</p>
+<h3>Linux: blank window, missing icons or slow typing</h3>
+<p>Install the WebKitGTK package for your distribution (see the <a href="index.html#install">installation guide</a>). If your graphics driver still has trouble, start ShellCat with <code>SHELLCAT_GPU=off shellcat</code> to turn off GPU acceleration.</p>
 <h3>ShellCat shows “started with problems”</h3>
 <p>A banner names the component that failed. Logs are in the <code>logs</code> folder (see <a href="#data">section 14</a>). If the vault key cannot be read, restore <code>key.bin</code> from a backup — ShellCat never replaces an existing key.</p>
 <p>Still stuck? <a href="https://github.com/Rudro085/ShellCat-go/issues">Open an issue</a> and attach the relevant lines from the log file (they contain no passwords).</p>

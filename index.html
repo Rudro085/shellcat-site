@@ -11,14 +11,16 @@
   <meta property="og:description"
     content="Terminal, files, Git, monitoring, auto diagnosis, scripts and Teleport in one calm desktop app.">
   <meta property="og:image" content="screenshots/hero.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
   <header class="top">
     <div class="wrap">
-      <a class="brand" href="#"><img src="assets/logo.png" alt="">ShellCat</a>
+      <a class="brand" href="#"><img src="assets/logo-lockup.svg" alt="ShellCat" width="72" height="48"></a>
       <nav>
         <a href="#features">Features</a>
         <a href="#download">Download</a>
@@ -32,21 +34,22 @@
   <main>
     <div class="hero">
       <div class="wrap">
-        <img class="logo" src="assets/logo.png" alt="ShellCat logo">
+        <img class="logo" src="assets/logo-stacked.svg" alt="ShellCat logo" width="111" height="180">
         <h1>A little closer to your servers.</h1>
         <p class="lead">ShellCat is a desktop SSH workspace for Windows and Linux. Terminal, files, a visual Git client,
           live monitoring, one-click server diagnosis, reusable scripts and native Teleport access — in one calm,
           local-first app.</p>
         <div class="cta">
           <a class="btn primary"
-            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.3.0/ShellCat-go-amd64-installer.exe">⬇
+            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.4.0/ShellCat-go-amd64-installer.exe">⬇
             Download for Windows<small>64-bit installer</small></a>
           <a class="btn"
-            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.3.0/shellcat_1.3.0_amd64.deb">⬇
+            href="https://github.com/Rudro085/shellcat-site/releases/download/v1.4.0/shellcat_1.4.0_amd64.deb">⬇
             Download for Linux<small>.deb package</small></a>
         </div>
-        <p class="meta"><span data-version>Latest release</span><span class="dl-count" data-downloads="total" hidden></span> · Free · <a href="#install">Installation guide</a> · <a
-            href="manual.html">User manual</a></p>
+        <p class="meta"><span data-version>Latest release</span><span class="dl-count" data-downloads="total"
+            hidden></span> · Free · <a href="#install">Installation guide</a> · <a href="manual.html">User manual</a>
+        </p>
         <figure class="shot"><img src="screenshots/hero.png"
             alt="ShellCat main window with the connection sidebar and an open terminal"></figure>
       </div>
@@ -68,8 +71,8 @@
           <div class="card">
             <div class="icon">🗂</div>
             <h3>Organised connections</h3>
-            <p>Groups, colours and tags for every server. Password, private key (with passphrase), SSH agent and
-              Teleport authentication. Duplicate a server in one click.</p>
+            <p>Groups, colours and tags for every server. Password, private key (from the keychain or a key file),
+              SSH agent and Teleport authentication. Duplicate a server in one click.</p>
           </div>
           <div class="card">
             <div class="icon">📜</div>
@@ -93,15 +96,15 @@
           <div class="card">
             <div class="icon">📁</div>
             <h3>Files over SFTP</h3>
-            <p>Browse, upload, download, rename, chmod and delete. Tab completion in the path bar and a built-in editor
-              with find &amp; replace for quick config changes.</p>
+            <p>Browse, upload, download, rename, chmod and delete. Tab completion in the path bar, a built-in editor
+              with find &amp; replace, or open files in VS Code, Notepad++ or any editor you like.</p>
           </div>
           <div class="card">
             <div class="icon">⑂</div>
             <h3>Visual Git client</h3>
             <p>A full Source Control view for repositories on your servers: stage single lines, commit, branch,
-              merge, stash, push and pull, resolve conflicts and browse a colour-coded commit graph. Nothing to
-              install on the server.</p>
+              merge, stash, push and pull, resolve conflicts and browse a colour-coded commit graph. Clone with your
+              saved GitHub, GitLab or Bitbucket accounts. Nothing to install on the server.</p>
           </div>
           <div class="card">
             <div class="icon">📈</div>
@@ -123,14 +126,34 @@
           <div class="card">
             <div class="icon">🔐</div>
             <h3>Private by design</h3>
-            <p>Connections live in a local AES-256-GCM vault whose key is protected by Windows DPAPI. Secrets never
-              reach the UI. Host keys are verified, and diagnosis reports redact passwords and tokens.</p>
+            <p>Connections and keys live in a local AES-256-GCM vault whose key is protected by Windows DPAPI, or by
+              your desktop keyring on Linux. Secrets never reach the UI. Host keys are verified, and diagnosis reports
+              redact passwords and tokens.</p>
           </div>
           <div class="card">
             <div class="icon">🎨</div>
             <h3>Make it yours</h3>
-            <p>Every colour, font and terminal setting lives in a simple appearance file. Optional on-device semantic
-              command search.</p>
+            <p>Six built-in themes — Night, Daylight, Paper, Ember, Phosphor and High Contrast — and every colour, font
+              and terminal setting in a simple appearance file. Optional on-device semantic command search.</p>
+          </div>
+          <div class="card">
+            <div class="icon">✨</div>
+            <h3>Autocomplete as you type</h3>
+            <p>The rest of a likely command appears in gray from your history on that server, the command catalogue and
+              the files around you. <kbd>→</kbd> accepts it, <kbd>Ctrl</kbd>+<kbd>→</kbd> one word. Every command is
+              marked with its exit status.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🔑</div>
+            <h3>SSH keychain</h3>
+            <p>Add your private keys once — from a file, pasted, or generated as Ed25519 or RSA 4096 — and pick them in
+              any connection. Passphrases are stored encrypted, and you can see which servers use each key.</p>
+          </div>
+          <div class="card">
+            <div class="icon">⛶</div>
+            <h3>Zen mode and split view</h3>
+            <p>Press <kbd>F11</kbd> for a full-screen workspace with just your tabs. Split it side by side or top and
+              bottom, or drag a tab to the edge, to watch two servers at once.</p>
           </div>
         </div>
 
@@ -150,17 +173,84 @@
             <p>It runs the server's own <code>git</code> over your existing SSH connection, so there is no agent to
               install and it works on old distributions too.</p>
           </div>
-          <figure class="shot"><img src="screenshots/git.png" alt="Git tab with changes, commit box and commit graph"></figure>
+          <figure class="shot"><img src="screenshots/git.png" alt="Git tab with changes, commit box and commit graph">
+          </figure>
         </div>
         <div class="feature">
           <div class="text">
             <h3>Review every change before you commit</h3>
             <p>Click a changed file to see exactly what changed. Select individual lines to stage only part of a file,
               discard a single hunk, or open the file in the editor. Merge conflicts get their own view with
-              <b>Accept Current</b>, <b>Accept Incoming</b> and <b>Accept Both</b> for each block.</p>
+              <b>Accept Current</b>, <b>Accept Incoming</b> and <b>Accept Both</b> for each block.
+            </p>
             <p>See the <a href="manual.html#git">Git chapter of the user manual</a> for every action.</p>
           </div>
-          <figure class="shot"><img src="screenshots/git-diff.png" alt="Side-by-side diff with selected lines ready to stage"></figure>
+          <figure class="shot"><img src="screenshots/git-diff.png"
+              alt="Side-by-side diff with selected lines ready to stage"></figure>
+        </div>
+        <div class="feature">
+          <div class="text">
+            <h3>Clone a repository without leaving the Git tab</h3>
+            <p>Paste an HTTPS or SSH address, choose the folder on the server, and clone. Add a personal access token
+              for GitHub, GitLab or Bitbucket once in <b>Settings → Git</b>, and ShellCat picks the matching account
+              for private repositories, fetches, pulls and pushes.</p>
+            <ul>
+              <li>Clone a branch or tag, only the latest commit, or with submodules</li>
+              <li>The commit name and email of the account are set in the new repository</li>
+              <li>Tokens stay encrypted in your vault and are never saved on the server</li>
+            </ul>
+          </div>
+          <figure class="shot"><img src="screenshots/git-clone.png"
+              alt="Cloning a repository with a saved GitHub account"></figure>
+        </div>
+        <div class="feature">
+          <div class="text">
+            <h3>Type less with autocomplete</h3>
+            <p>As you type, ShellCat suggests the rest of the command in gray: commands you ran on that server before,
+              more than 2,000 built-in commands, and file and folder names. Press <kbd>→</kbd> to accept it or
+              <kbd>Ctrl</kbd>+<kbd>→</kbd> for one word; <kbd>Tab</kbd> stays your shell's own completion.
+            </p>
+            <p>With shell integration, each command gets a green or red marker for its exit status,
+              <kbd>Ctrl</kbd>+<kbd>↑</kbd>
+              and <kbd>Ctrl</kbd>+<kbd>↓</kbd> jump between commands, and relative paths in the output become
+              clickable.</p>
+          </div>
+          <figure class="shot"><img src="screenshots/autocomplete.png"
+              alt="Terminal suggesting the rest of a command in gray"></figure>
+        </div>
+        <div class="feature">
+          <div class="text">
+            <h3>All your SSH keys in one place</h3>
+            <p>Open <b>Keychain</b> in the header to import a key file, paste one, or generate a new Ed25519 or RSA
+              4096 key. Copy the public key for <code>authorized_keys</code>, rename keys, and see which connections
+              use each one before you remove it.</p>
+            <p>When you add a connection, choose <b>From keychain</b> and pick the key: no file paths, and the
+              passphrase is only typed once.</p>
+          </div>
+          <figure class="shot"><img src="screenshots/keychain.png"
+              alt="Keychain with three SSH keys and the connections that use them"></figure>
+        </div>
+        <div class="feature">
+          <div class="text">
+            <h3>Full screen when you need to focus</h3>
+            <p>Press <kbd>F11</kbd> or the full-screen button and the sidebar and header step aside. A compact bar
+              keeps your tabs, the Terminal, Files, Git, Monitor and Tunnels views and the split buttons within reach.
+            </p>
+            <p>Split the workspace to follow logs on one server while you watch another's load, and drag a tab to the
+              side of the workspace to split with it.</p>
+          </div>
+          <figure class="shot"><img src="screenshots/zen.png"
+              alt="Full-screen workspace with a terminal beside a live monitor"></figure>
+        </div>
+        <div class="feature">
+          <div class="text">
+            <h3>Six themes, one click</h3>
+            <p>Pick Night, Daylight, Paper, Ember, Phosphor or High Contrast in <b>Settings → Appearance</b>. Every
+              theme
+              meets WCAG AA contrast, and High Contrast meets AAA. Apply one as a starting point, then fine-tune any
+              colour or font in your own appearance file.</p>
+          </div>
+          <figure class="shot"><img src="screenshots/themes.png" alt="Theme picker in the Paper theme"></figure>
         </div>
         <div class="feature">
           <div class="text">
@@ -210,13 +300,14 @@
       <div class="wrap">
         <h2>Download</h2>
         <p class="sub">ShellCat is free. Pick the package for your system; older versions and release notes are on the
-          <a data-link="releases" href="https://github.com/Rudro085/shellcat-site/releases">releases page</a>.</p>
+          <a data-link="releases" href="https://github.com/Rudro085/shellcat-site/releases">releases page</a>.
+        </p>
         <div class="downloads">
           <div class="card dl">
             <h3>🪟 Windows</h3>
             <p>Windows 10 (1809 or later) and Windows 11, 64-bit.</p>
             <a class="btn primary"
-              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.3.0/ShellCat-go-amd64-installer.exe">⬇
+              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.4.0/ShellCat-go-amd64-installer.exe">⬇
               Installer (.exe)</a>
             <p class="dl-count-card" data-downloads="windows" hidden></p>
           </div>
@@ -224,7 +315,7 @@
             <h3>🐧 Linux</h3>
             <p>64-bit distributions with GTK 3 and WebKitGTK (Ubuntu, Debian, Fedora, Arch…).</p>
             <a class="btn primary"
-              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.3.0/shellcat_1.3.0_amd64.deb">⬇
+              href="https://github.com/Rudro085/shellcat-site/releases/download/v1.4.0/shellcat_1.4.0_amd64.deb">⬇
               Debian / Ubuntu (.deb)</a>
             <p class="dl-count-card" data-downloads="linux" hidden></p>
           </div>
@@ -252,7 +343,7 @@
             <ol class="steps">
               <li>Download the <code>.deb</code> package.</li>
               <li>Install it (dependencies are pulled in automatically):
-                <pre><code>sudo apt install ./shellcat_1.3.0_amd64.deb</code></pre>
+                <pre><code>sudo apt install ./shellcat_1.4.0_amd64.deb</code></pre>
               </li>
               <li>Start <b>ShellCat</b> from your application menu.</li>
             </ol>
@@ -281,7 +372,8 @@
           </div>
           <div class="card">
             <h3>3 · Use the tools</h3>
-            <p>Switch between Terminal, Files, Git, Monitor and Tunnels. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>
+            <p>Switch between Terminal, Files, Git, Monitor and Tunnels. Press
+              <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>
               for scripts, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> for commands.</p>
           </div>
         </div>
